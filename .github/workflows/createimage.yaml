@@ -52,17 +52,18 @@ jobs:
       #     base64-kube-config: ${{ secrets.KUBECONFIG64 }}
       # - run: kubectl get pods
 
-      - name: Wait for 10 seconds
-        run: sleep 10
+      # - name: Wait for 10 seconds
+      #   run: sleep 10
   
       - name: Configure kubectl
         uses: steebchen/kubectl@v2.1.1
         with:
           kuberconfig: ${{ secrets.KUBECONFIG }}
-          server: https://48823EB3617FACDB656C1D5624CB4F24.gr7.us-east-1.eks.amazonaws.com:443
+          command: apply -f config.yaml
   
       - name: Apply Kubernetes manifests
         run: |
+          cat config.yaml
           kubectl config view
           kubectl apply -f php_service.yaml
           sleep 10
