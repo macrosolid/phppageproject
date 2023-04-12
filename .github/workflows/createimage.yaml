@@ -49,7 +49,7 @@ jobs:
       - name: Get Pods
         uses: tale/kubectl-action@v1
         with:
-          base64-kube-config: ${{ secrets.KUBECONFIG }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
       - run: kubectl get pods
 
       - name: Wait for 10 seconds
