@@ -45,13 +45,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - uses: actions/checkout@v2
       - name: Get pods
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
         with:
-          args: get pods
+          args: get pods,sleep 10
 
       - name: Configure kubectl
         uses: steebchen/kubectl@v2.1.1
