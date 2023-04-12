@@ -1,11 +1,11 @@
 name: Get pods
-on: [push]
-
+on:
+  push:
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -16,27 +16,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - uses: actions/checkout@v1
-      - uses: actions-hub/kubectl@master
+      - name: Get pods
+        uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
-        with:
-          args: get pods
-
-name: Get pods
-on: [push]
-
-jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
-
-      - uses: actions-hub/kubectl@master
         with:
           args: get pods
