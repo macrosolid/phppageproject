@@ -46,6 +46,12 @@ jobs:
           aws-region: us-east-1
           aws-output: json
 
+      - name: Get Pods
+        uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBECONFIG }}
+        - run: kubectl get pods
+
       - name: Wait for 10 seconds
         run: sleep 10
   
@@ -57,6 +63,8 @@ jobs:
   
       - name: Apply Kubernetes manifests
         run: |
+          curl http://localhost:443/healthz
+          curl http://localhost:8080/healthz
           kubectl version
           kubectl get nodes
           kubectl config view
