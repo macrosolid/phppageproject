@@ -46,9 +46,9 @@ jobs:
           aws-region: us-east-1
 
       - name: Configure kubectl
-        uses: steebchen/kubectl@v1
+        uses: steebchen/kubectl@v1.3.2
         with:
-          version: "1.21.2"
+          version: "1.26.3"
 
       - name: Apply Kubernetes manifests
         run: |
