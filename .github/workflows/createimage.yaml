@@ -37,28 +37,31 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+  
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
+          aws-output: json
+  
       - name: Get pods
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
         with:
-          args: get pods,sleep 10
-
+          args: get pods
+  
+      - name: Wait for 10 seconds
+        run: sleep 10
+  
       - name: Configure kubectl
         uses: steebchen/kubectl@v2.1.1
         with:
-          # version: "1.26.3"
-          kuberconfig: ${{ secrets.KUBECONFIG  }}
+          kuberconfig: ${{ secrets.KUBECONFIG }}
           server: https://48823EB3617FACDB656C1D5624CB4F24.gr7.us-east-1.eks.amazonaws.com:443
-
+  
       - name: Apply Kubernetes manifests
         run: |
           kubectl version
@@ -67,3 +70,4 @@ jobs:
           kubectl apply -f php_service.yaml
           sleep 10
           kubectl apply -f php_deployment.yaml
+  
