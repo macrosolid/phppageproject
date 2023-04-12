@@ -53,6 +53,7 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
+          kubectl version
           kubectl config view
           kubectl apply -f php_service.yaml
           sleep 10
