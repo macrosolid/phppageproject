@@ -48,7 +48,8 @@ jobs:
       - name: Configure kubectl
         uses: steebchen/kubectl@v2.1.1
         with:
-          version: "1.26.3"
+          # version: "1.26.3"
+          kuberconfig: ${{ secrets.KUBECONFIG  }}
 
       - name: Apply Kubernetes manifests
         run: |
