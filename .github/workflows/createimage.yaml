@@ -58,11 +58,11 @@ jobs:
       - name: Configure kubectl
         uses: steebchen/kubectl@v2.1.1
         with:
-          kuberconfig: ${{ secrets.KUBECONFIG }}
+          kuberconfig: ${{ vars.KUBECONFIG }}
   
       - name: Apply Kubernetes manifests
         run: |
-          cat ${{ secrets.KUBECONFIG }}
+          cat ${{ vars.KUBECONFIG }}
           kubectl config view
           kubectl apply -f php_service.yaml
           sleep 10
