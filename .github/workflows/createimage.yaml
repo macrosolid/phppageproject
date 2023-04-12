@@ -44,13 +44,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          # aws-output: json
+          aws-output: json
 
       - name: Get Pods
         uses: tale/kubectl-action@v1
         with:
           base64-kube-config: ${{ secrets.KUBECONFIG }}
-        - run: kubectl get pods
+      - run: kubectl get pods
 
       - name: Wait for 10 seconds
         run: sleep 10
