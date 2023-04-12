@@ -50,6 +50,7 @@ jobs:
         with:
           # version: "1.26.3"
           kuberconfig: ${{ secrets.KUBECONFIG  }}
+          server: https://48823EB3617FACDB656C1D5624CB4F24.gr7.us-east-1.eks.amazonaws.com:443
 
       - name: Apply Kubernetes manifests
         run: |
