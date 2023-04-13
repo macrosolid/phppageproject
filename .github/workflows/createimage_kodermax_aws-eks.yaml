@@ -57,12 +57,15 @@ jobs:
         with:
           args: get nodes
 
-      - name: Setting php_service
+      - name: Deploy php_service and php_deployment
         uses: kodermax/kubectl-aws-eks@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
         with:
-          args: apply -f php_service.yaml
+          args: |
+            apply -f php_service.yaml
+            sleep 10
+            kubectl apply -f php_deployment.yaml
   
       # - name: Apply Kubernetes manifests
       #   run: |
