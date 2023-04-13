@@ -60,7 +60,7 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
         with:
-          args: get pods
+          args: config view
   
       # - name: Apply Kubernetes manifests
       #   run: |
