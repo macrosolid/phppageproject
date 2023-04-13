@@ -35,6 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     # needs: build
     steps:
+      - uses: kodermax/kubectl-aws-eks@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
       - name: Checkout code
         uses: actions/checkout@v2
   
@@ -52,20 +55,15 @@ jobs:
 
       - name: Configure kubectl get nodes
         uses: kodermax/kubectl-aws-eks@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
+        # env:
+        #   KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
         with:
           args: get nodes
 
-      - name: deploy to cluster
+      - name: Setting php_service
         uses: kodermax/kubectl-aws-eks@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: phpwebpage
-          IMAGE_TAG: latest # ${{ github.sha }}
         with:
-          args: set image macrosolid/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY
+          args: apply -f php_service.yaml
   
       # - name: Apply Kubernetes manifests
       #   run: |
