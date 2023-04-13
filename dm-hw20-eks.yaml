@@ -18,5 +18,18 @@ nodeGroups: # List of node groups that will be created in the EKS cluster.
         # sshPublicKeyPath: /path/to/public/key # Path to your public key file
     minSize: 1 # Minimum number of nodes in the node group.
     maxSize: 2 # Maximum number of nodes in the node group.
+    # securityGroups:
+    #   - public:
+    #       inboundRules:
+    #         - type: All traffic
+    #           protocol: All
+    #           portRange: All
+    #           source: 37.214.69.42/32
+    #           description: Corporate hosts
+    #         - type: HTTP
+    #           protocol: TCP
+    #           portRange: 80
+    #           source: 0.0.0.0/0
+    #           description: Service users
 
 # availabilityZones: ['us-east-1a', 'us-east-1b', 'us-east-1c', 'us-east-1d, 'us-east-1e', 'us-east-1f']  # Exclude  'us-east-1e' - because here has a problems
