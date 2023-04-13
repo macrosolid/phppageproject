@@ -56,7 +56,7 @@ jobs:
       #   run: sleep 10
   
       - name: Configure kubectl
-        uses: steebchen/kubectl@v2.1.1
+        uses: kodermax/kubectl-aws-eks@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
   
