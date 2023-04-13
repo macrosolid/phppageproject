@@ -4,7 +4,7 @@ kind: Service               # The type of Kubernetes resource.
 metadata:                   # Metadata for the resource.
   name: dm-hw20-php-service  # The name of the service.
   labels:                   # Key-value pairs used to label and organize the resource.
-    app: dm-hw20-php-label  # Label for the application.
+    app: php  # Label for the application.
     tier: backend           # Label for the tier of the application.
 
 spec:                       # Specification for the resource.
@@ -14,7 +14,8 @@ spec:                       # Specification for the resource.
     app: php                # Label for the application name.
     tier: backend           # Label for the tier of t.he application.
   ports:                    # List of ports to expose on the .service.
-  - protocol: TCP           # The protocol used by the port.
+  - name: http
+    protocol: TCP           # The protocol used by the port.
     port: 80                # The port number.
     targetPort: 80
   # externalIPs:           # The external IP addresses associated with the service.
