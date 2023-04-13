@@ -48,7 +48,7 @@ on:
       - name: Get pods
         uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
+          KUBE_CONFIG: ${{ secrets.KUBECONFIG64 }}
         with:
           args: get pods,sleep 10
 
@@ -58,8 +58,8 @@ on:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-1
-          cluster_name: "my-eks-cluster"
-          kubectl_version: "1.22.2"
+          cluster_name: "dm-hw20-eks-cluster"
+          # kubectl_version: "1.22.2"
 
       - name: Apply Kubernetes manifests
         run: |
