@@ -58,7 +58,7 @@ jobs:
       - name: Configure kubectl
         uses: steebchen/kubectl@v2.1.1
         env:
-          KUBE_CONFIG_DATA: ${{ vars.KUBECONFIG64 }}
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
   
       - name: Apply Kubernetes manifests
         run: |
