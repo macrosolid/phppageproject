@@ -22,3 +22,5 @@ spec:                       # Specification for the resource.
       - name: php           # Name of the container.
         # The Docker image used for the container.
         image: macrosolid/phpwebpage:latest
+        ports:
+        - containerPort: 80
