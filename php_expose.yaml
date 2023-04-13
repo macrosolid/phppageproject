@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dm-hw20-php-service
+  name: dm-hw20-php-deploy
 spec:
   selector:
     app: dm-hw20-php
