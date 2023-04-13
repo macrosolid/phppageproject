@@ -46,21 +46,26 @@ jobs:
           aws-region: us-east-1
           aws-output: json
 
-      # - name: Get Pods
-      #   uses: tale/kubectl-action@v1
-      #   with:
-      #     base64-kube-config: ${{ secrets.KUBECONFIG64 }}
-      # - run: kubectl get pods
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      # - name: Wait for 10 seconds
-      #   run: sleep 10
-  
-      - name: Configure kubectl
+      - name: Configure kubectl get nodes
         uses: kodermax/kubectl-aws-eks@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
         with:
-          args: config view
+          args: get nodes
+
+      - name: deploy to cluster
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: phpwebpage
+          IMAGE_TAG: latest # ${{ github.sha }}
+        with:
+          args: set image macrosolid/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY
   
       # - name: Apply Kubernetes manifests
       #   run: |
