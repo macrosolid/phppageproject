@@ -59,11 +59,13 @@ jobs:
         uses: kodermax/kubectl-aws-eks@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG64 }}
+        with:
+          args: get pods
   
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl config view
-          kubectl apply -f php_service.yaml
-          sleep 10
-          kubectl apply -f php_deployment.yaml
+      # - name: Apply Kubernetes manifests
+      #   run: |
+      #     kubectl config view
+      #     kubectl apply -f php_service.yaml
+      #     sleep 10
+      #     kubectl apply -f php_deployment.yaml
   
