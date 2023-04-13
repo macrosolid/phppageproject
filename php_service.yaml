@@ -17,5 +17,5 @@ spec:                       # Specification for the resource.
   - protocol: TCP           # The protocol used by the port.
     port: 80                # The port number.
     targetPort: 80
-  externalIPs:           # The external IP addresses associated with the service.
-  - None       # The public IP address of the service.
+  # externalIPs:           # The external IP addresses associated with the service.
+  # - None       # The public IP address of the service.
