@@ -59,3 +59,4 @@ jobs:
             apply -f php_service.yaml
             sleep 10
             kubectl apply -f php_deployment.yaml
+            kubectl config view
