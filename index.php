@@ -1,12 +1,13 @@
 <html>
 <head>
-<title>
-    <?php
-        echo '<p>Hell World</p>'; 
-    ?>
-</title>
+<?php
+  echo '<title>Hell World</title>'; 
+?>
 </head>
 <body>
-    <?php phpinfo(); ?>
+<?php
+  echo '<p><big><big>Lorem ipsum dolor sit amet</big></big></p>'; 
+  phpinfo();
+?>
 </body>
 </html>
