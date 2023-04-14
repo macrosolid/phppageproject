@@ -63,4 +63,11 @@ jobs:
             kubectl apply -f php_expose.yaml
             sleep 10
             kubectl apply -f php_ingress.yaml
+            sleep 10
+            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/cloud/deploy.yaml
+            sleep 10
+            kubectl wait --namespace ingress-nginx --for=condition=ready pod  --selector=app.kubernetes.io/component=controller --timeout=120s
+            sleep 10
+            kubectl apply php_ingress.yaml
+
 

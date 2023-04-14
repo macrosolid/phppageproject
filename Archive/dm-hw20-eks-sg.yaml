@@ -1,0 +1,61 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: dm-hw20-eks-cluster
+  region: us-east-1
+  version: "1.25"
+
+vpc:
+  cidr: 172.101.0.0/16
+  subnets:
+    private:
+      us-east-1a:
+        id: subnet-12345678
+      us-east-1b:
+        id: subnet-23456789
+    public:
+      us-east-1a:
+        id: subnet-34567890
+      us-east-1b:
+        id: subnet-45678901
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t3.medium
+    desiredCapacity: 2
+    iam:
+      withAddonPolicies:
+        albIngress: true
+    # ssh:
+    #   allow: true
+    #   sshPublicKeyPath: /path/to/public/key
+    minSize: 1
+    maxSize: 2
+    securityGroups:
+      attachIDs:
+        - sg-12345678 # associate with security group "sg-12345678"
+        - sg-23456789 # associate with security group "sg-23456789"
+
+securityGroups:
+  # Define security group "sg-12345678"
+  - name: dm-hw20-privateip-sg
+    description: "Allow all inbound traffic from 37.214.65.117/32"
+    ingress:
+      - fromPort: 0
+        toPort: 65535
+        protocol: tcp
+        cidrIP: 37.214.65.117/32
+
+  # Define security group "sg-23456789"
+  - name: db-hw20-public-sg
+    description: "Allow inbound HTTP and HTTPS traffic from any IP"
+    ingress:
+      - fromPort: 80
+        toPort: 80
+        protocol: tcp
+        cidrIP: 0.0.0.0/0
+      - fromPort: 443
+        toPort: 443
+        protocol: tcp
+        cidrIP: 0.0.0.0/0

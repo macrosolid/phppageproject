@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dm-hw20-php-ingress
+  namespace: default
+  annotations:
+    # nginx.ingress.kubernetes.io/app-root: /hellworld
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+    # ginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # cert-manager.io/cluster-issuer: "cert-manager"
+    # name: rewrite
+    # namespace: default
+spec:
+  ingressClassName: nginx
+  # tls:
+  # - hosts:
+  #   - "a94602d5335564d8a893192a98b552ff-4468431.us-east-1.elb.amazonaws.com"
+  #   secretName: demo-key
+  rules:
+  - host: "*.us-east-1.elb.amazonaws.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: /hellouniverse
+        backend:
+          service:
+            name: hello-universe
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: /hellworld
+        backend:
+          service:
+            name: dm-hw20-php-service
+            port:
+              number: 80
+

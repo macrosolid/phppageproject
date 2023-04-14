@@ -2,16 +2,20 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dm-hw20-php-ingress
+  namespace: default
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    # cert-manager.io/cluster-issuer: "cert-manager"
 spec:
+  ingressClassName: nginx
   rules:
-  - http:
+  - host: "*.us-east-1.elb.amazonaws.com"
+    http:
       paths:
-      - path: /
-        pathType: Prefix
+      - pathType: Prefix
+        path: "/helloworld"
         backend:
           service:
             name: dm-hw20-php-service
             port:
-              name: http
+              number: 80
