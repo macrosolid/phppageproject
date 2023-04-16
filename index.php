@@ -6,7 +6,7 @@
 </head>
 <body>
 <?php
-  echo '<p><big><big>Lorem ipsum dolor sit amet</big></big></p>'; 
+  echo '<p><big><big>Hell world</big></big></p>'; 
   phpinfo();
 ?>
 </body>
