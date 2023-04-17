@@ -19,27 +19,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - id: release
-        uses: rymndhng/release-on-push-action@master
-        with:
-          bump_version_scheme: minor
-          tag_prefix: v
-          
-      - name: Check Output Parameters
-        run: |
-          echo "Got tag name: ${{ steps.release.outputs.tag_name }}"
-          echo "Got release version: ${{ steps.release.outputs.version }}"
-          echo "Upload release artifacts to: ${{ steps.release.outputs.upload_url }}"
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
 
-      - name: Set output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-      - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ steps.vars.outputs.tag }}
+      - uses: actions-ecosystem/action-bump-semver@v1
+        id: bump-semver
+        with:
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          level: minor
+
+      - uses: actions-ecosystem/action-push-tag@v1
+        with:
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: '${{ steps.bump-semver.outputs.new_version }}:PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
 
       # Login to Dockerhub.
       - name: Login to Dockerhub
@@ -105,4 +97,3 @@ jobs:
             kubectl wait --namespace ingress-nginx --for=condition=ready pod  --selector=app.kubernetes.io/component=controller --timeout=120s
             sleep 10
             kubectl apply -f php_ingress.yaml
-
