@@ -13,13 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the code.
-      # - name: Checkout code
-      - uses: actions/checkout@v2
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }
+      - name: Checkout code
+        uses: actions/checkout@v2
+        steps:
+          - name: Print the input tag to STDOUT
+            run: echo  The tags are ${{ inputs.tags }} 
 
       # Login to Dockerhub.
       - name: Login to Dockerhub
@@ -34,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:latest,${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:${{ steps.tag_version.outputs.new_tag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:latest #,${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:${{ inputs.tags }}
 
   deploy:
     runs-on: ubuntu-latest
