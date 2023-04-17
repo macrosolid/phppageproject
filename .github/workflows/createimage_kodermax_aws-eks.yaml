@@ -31,10 +31,12 @@ jobs:
         uses: Surgo/docker-smart-tag-action@v1
         with:
           docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+          
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
+          default_branch: ${{ github.event.repository.default_branch }}
           tags: ${{ steps.prepare.outputs.tag }}
 
       # # Build and push the Docker image.

@@ -1,0 +1,36 @@
+name: 'build-test'
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'releases/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run all
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: prepare1
+        with:
+          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+      - run: echo ${{ steps.prepare1.outputs.tag }}
+      - uses: ./
+        id: prepare2
+        with:
+          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+          tag_with_sha: true
+      - run: echo ${{ steps.prepare2.outputs.tag }}
+      - uses: ./
+        id: prepare3
+        with:
+          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+          default_branch: ${{ github.event.repository.default_branch }}
+      - run: echo ${{ steps.prepare3.outputs.tag }}
