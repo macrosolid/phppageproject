@@ -19,11 +19,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Test
+      - id: release
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
+          tag_prefix: v
+          
+      - name: Check Output Parameters
         run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
-          echo ${{ github.run_number }}
+          echo "Got tag name: ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version: ${{ steps.release.outputs.version }}"
+          echo "Upload release artifacts to: ${{ steps.release.outputs.upload_url }}"
 
       - name: Set output
         id: vars
@@ -63,7 +69,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUBIMAGE }}:latest, ${{ secrets.DOCKERHUB_USERNAME }}/{{ vars.DOCKERHUBIMAGE }}:${{ github.run_number }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUBIMAGE }}:latest, ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUBIMAGE }}:${{  github.ref_name  }}"
 
   deploy:
     runs-on: ubuntu-latest
