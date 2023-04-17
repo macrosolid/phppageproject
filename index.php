@@ -6,7 +6,7 @@
 </head>
 <body>
 <?php
-  echo '<p><big><big>Hell world</big></big></p>'; 
+  echo '<p><big><big>Hell world, test version</big></big></p>'; 
   phpinfo();
 ?>
 </body>
