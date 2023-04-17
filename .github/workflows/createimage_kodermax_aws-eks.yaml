@@ -19,6 +19,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+          echo ${{ github.run_number }}
+
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+
       # Login to Dockerhub.
       - name: Login to Dockerhub
         uses: docker/login-action@v1
@@ -41,13 +57,13 @@ jobs:
           cache-from: |
             type=local,src=tags.csv
 
-      # # Build and push the Docker image.
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:latest, ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:${{ github.event.inputs.tags }} 
+      # Build and push the Docker image.
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUBIMAGE }}:latest, ${{ secrets.DOCKERHUB_USERNAME }}/{{ vars.DOCKERHUBIMAGE }}:${{ github.run_number }}
 
   deploy:
     runs-on: ubuntu-latest
