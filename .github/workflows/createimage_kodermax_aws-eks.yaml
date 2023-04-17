@@ -36,7 +36,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUBIMAGE }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUBIMAGE }}:${{ github.run_number }}
-            #${{  github.ref_name  }}
+            # $\{{  github.ref_name  }}
 
   deploy:
     runs-on: ubuntu-latest
