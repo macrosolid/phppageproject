@@ -15,9 +15,7 @@ jobs:
       # Checkout the code.
       - name: Checkout code
         uses: actions/checkout@v2
-        steps:
-          - name: Print the input tag to STDOUT
-            run: echo  The tags are ${{ inputs.tags }} 
+        run: echo  The tags are ${{ inputs.tags }} 
 
       # Login to Dockerhub.
       - name: Login to Dockerhub
