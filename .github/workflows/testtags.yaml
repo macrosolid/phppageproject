@@ -10,25 +10,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        id: prepare1
-        with:
-          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
-      - run: echo ${{ steps.prepare1.outputs.tag }}
-      - uses: ./
-        id: prepare2
-        with:
-          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
-          tag_with_sha: true
-      - run: echo ${{ steps.prepare2.outputs.tag }}
-      - uses: ./
-        id: prepare3
-        with:
-          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
-          default_branch: ${{ github.event.repository.default_branch }}
-      - run: echo ${{ steps.prepare3.outputs.tag }}
+    - uses: actions/checkout@v2
+
+    - name: Get smart tag
+      id: prepare1
+      uses: Surgo/docker-smart-tag-action@v1
+      with:
+        docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+
+    - name: prepare1
+      uses: docker/build-push-action@v2
+      with:
+        docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+    - run: echo ${{ steps.prepare1.outputs.tag }}
+
+    - name: prepare2
+      uses: docker/build-push-action@v2
+      with:
+        docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+        tag_with_sha: true
+    - run: echo ${{ steps.prepare2.outputs.tag }}
+
+    - name: prepare2
+      uses: docker/build-push-action@v2
+      with:
+        docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+        default_branch: ${{ github.event.repository.default_branch }}
+    - run: echo ${{ steps.prepare3.outputs.tag }}
+
+
+        
+    # - name: Build and push
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     push: true
+    #     default_branch: ${{ github.event.repository.default_branch }}
+    #     tags: ${{ steps.prepare.outputs.tag }}
