@@ -1,0 +1,1 @@
+tags: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:latest,${{ secrets.DOCKERHUB_USERNAME }}phpwebpage:0.0.1

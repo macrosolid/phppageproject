@@ -26,18 +26,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get smart tag
-        id: prepare
-        uses: Surgo/docker-smart-tag-action@v1
-        with:
-          docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
-          
+      # - name: Get smart tag
+      #   id: prepare
+      #   uses: Surgo/docker-smart-tag-action@v1
+      #   with:
+      #     docker_image: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
-          default_branch: ${{ github.event.repository.default_branch }}
-          tags: ${{ steps.prepare.outputs.tag }}
+          # default_branch: ${{ github.event.repository.default_branch }}
+          cache-from: |
+            type=local,src=tags.csv
 
       # # Build and push the Docker image.
       # - name: Build and push Docker image
