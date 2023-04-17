@@ -15,7 +15,6 @@ jobs:
       # Checkout the code.
       - name: Checkout code
         uses: actions/checkout@v2
-        run: echo  The tags are ${{ inputs.tags }} 
 
       # Login to Dockerhub.
       - name: Login to Dockerhub
@@ -30,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:latest #,${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:${{ inputs.tags }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:latest, ${{ secrets.DOCKERHUB_USERNAME }}/phpwebpage:${{ inputs.tags }}
 
   deploy:
     runs-on: ubuntu-latest
